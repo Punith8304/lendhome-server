@@ -5,6 +5,7 @@ dotenv.config()
 import db from "./src/config/databaseConfig.js"
 import session from "express-session"
 import { connectDatabase } from "./src/config/databaseConfig.js"
+import { upload } from "./src/middlewares/multerMiddleware.js"
 import uploadHouseDetails from "./src/routes/uploadHouseDetails.js"
 import propertyDetails from "./src/routes/propertyDetails.js"
 import userDetails from "./src/routes/userDetails.js"
@@ -39,6 +40,13 @@ app.use("/upload", uploadHouseDetails)
 app.use("/user", userDetails)
 app.use("/authentication", userDetails)
 app.use("/property-details", propertyDetails)
+app.use("/user-property", userDetails)
+
+
+
+app.get("/home-page", async (req, res) => {
+    res.send("Hello world")
+})
 
 
 
@@ -48,34 +56,18 @@ app.use("/property-details", propertyDetails)
 
 
 
+app.get("/images/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+        const result = await db.query('SELECT * FROM images WHERE id = $1', [id])
+        const { image_name, image, mimetype } = result.rows[0];
+        res.type(mimetype)
+        res.send(image)
+    } catch (error) {
+        console.log(error)
+    }
+})
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app.get("/images/:id", async (req, res) => {
-//     const id = req.params.id;
-//     try {
-//         const result = await db.query('SELECT * FROM images WHERE id = $1', [id])
-//         const { image_name, image, mimetype } = result.rows[0];
-//         res.type(mimetype)
-//         res.send(image)
-//     } catch (error) {
-//         console.log(error)
-//     }
-// })
 
 
 // POST requests API
@@ -88,6 +80,7 @@ app.use("/property-details", propertyDetails)
 //     const valuePlaceHolders = objectValues.map((_, index) => `$${index + 1}`).join(", ") //Generate placeholders for each value
 //     const query = `INSERT INTO property (${columnNames}) VALUES (${valuePlaceHolders}) RETURNING *`
 
+
 //     // upload property-details to db
 //     try {
 //         const result = await db.query(query, objectValues)
@@ -97,8 +90,9 @@ app.use("/property-details", propertyDetails)
 //         console.log(error)
 //         res.send("Error storing property details")
 //     }
-
 // })
+
+
 // app.post("/upload/locality-details", async (req, res) => {
 //     const localityDetails = req.body
 //     try {
@@ -136,6 +130,8 @@ app.use("/property-details", propertyDetails)
 //     // console.log(req.body)
 //     // res.send("Locality Post request received successfully")
 // })
+
+
 // app.post("/upload/rental-details", async (req, res) => {
 //     const rentalDetails = req.body;
 //     try {

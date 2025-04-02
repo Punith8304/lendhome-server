@@ -12,7 +12,7 @@ export const getCompletedPropertyList = async (req, res) => {
             ...result
         }
         res.send({status: 200, updateUser: req.session.user})
-        console.log(req.session.user)
+        console.log(req.session.user, "completed-property-list")
     }
 }
 

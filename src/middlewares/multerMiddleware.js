@@ -1,2 +1,3 @@
 import multer from "multer";
-export const upload = multer({ dest: "C:/Users/punit/Desktop/Projects/LendHome/server/uploads" }) //creates image in local storage for uploading
+const storage = multer.memoryStorage()
+export const upload = multer({storage: storage}) //creates image in local storage for uploading

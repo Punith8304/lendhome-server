@@ -14,11 +14,11 @@ export const getPropertiesIds = async (req, res) => {
 
 
 export const getDisplayPropertyResult = async (req, res) => {
-    const houseId = Number(req.body.houseId.house_id)
+    const houseId = Number(req.body.houseId)
+    console.log(req.body, "houseId result")
     console.log(req.body, houseId)
     try {
         const result = await resultDBServices.getDisplayPropertyResultService(houseId)
-        console.log(result, "display result")
         res.send(result)
     } catch (error) {
         console.log(error)

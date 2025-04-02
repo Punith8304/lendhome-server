@@ -15,6 +15,7 @@ export const userLogin = async (req,res) => {
                 username: user.user_name,
                 useremail: user.user_email,
                 usermobile: user.user_mobile,
+                userId: user.user_id,
                 house: {
                     houseCreationInitialised: false
                 }
@@ -44,7 +45,8 @@ export const userSignUp = async (req, res) => {
         req.session.user = {
             useremail: user.user_email,
             username: user.user_name,
-            usermobile: user.user_mobile
+            usermobile: user.user_mobile,
+            userId: user.user_id
         }
         res.json({message: "user successfully registered & logged in", login: true, user: req.session.user})
         console.log("registered successfully")
@@ -73,4 +75,42 @@ export const userLogout = async (req, res) => {
             console.log("logout success")
         }
     })
+}
+
+
+export const addToWishList = async (req, res) => {
+    const userId = req.session.user.userId;
+    console.log(req.session, "successfully sent request to add to wish list")
+    try {
+        const addToWishListResult = await dbService.addToWishListService(userId, req.body.houseId)
+        console.log(addToWishListResult)
+        res.send({status: 200, data: addToWishListResult})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getWishList = async (req, res) => {
+    const userId = req.session.user.userId;
+    try {
+        console.log(userId)
+        const getWishList = await dbService.getWishListIdService(userId)
+        console.log(getWishList, "wishlist")
+        res.send({wishList: getWishList, isEmpty: getWishList.length === 0})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getUserPostedPropertiesIds = async (req, res) => {
+    const userId = req.session.user.userId;
+    try {
+        const getOwnerPropertyIds = await dbService.getOwnerPropertiesHouseIds(userId)
+        console.log(getOwnerPropertyIds, "results rows")
+        res.send({propertiesIds: getOwnerPropertyIds})
+    } catch (error) {
+        console.log(error)
+    }
 }
