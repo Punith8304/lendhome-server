@@ -56,17 +56,7 @@ app.get("/home-page", async (req, res) => {
 
 
 
-app.get("/images/:id", async (req, res) => {
-    const id = req.params.id;
-    try {
-        const result = await db.query('SELECT * FROM images WHERE id = $1', [id])
-        const { image_name, image, mimetype } = result.rows[0];
-        res.type(mimetype)
-        res.send(image)
-    } catch (error) {
-        console.log(error)
-    }
-})
+
 
 
 

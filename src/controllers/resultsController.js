@@ -37,22 +37,35 @@ export const getFullHouseDetails = async (req, res) => {
             const rentalDetails = await resultDBServices.getFullHouseRentalDetails(houseDetailsIds.rental_id)
             const amenitiesDetails = await resultDBServices.getFullHouseAmenitiesDetails(houseDetailsIds.amenities_id)
             const scheduleDetails = await resultDBServices.getFullHouseScheduleDetails(houseDetailsIds.schedule_id)
-            const galleryDetails = await resultDBServices.getFullHouseGalleryDetails(houseDetailsIds.gallery_id)
-            console.log(userDetails)
+            const galleryDetails = await resultDBServices.getFullHouseGalleryDetails(houseId)
+            const result = {
+                userDetails: userDetails,
+                propertyDetails: propertyDetails,
+                localityDetails: localityDetails,
+                rentalDetails: rentalDetails,
+                amenitiesDetails: amenitiesDetails,
+                scheduleDetails: scheduleDetails,
+                galleryDetails: galleryDetails
+            }
             res.send({
-                data: {
-                    userDetails: userDetails,
-                    propertyDetails: propertyDetails,
-                    localityDetails: localityDetails,
-                    rentalDetails: rentalDetails,
-                    amenitiesDetails: amenitiesDetails,
-                    scheduleDetails: scheduleDetails,
-                    galleryDetails: galleryDetails
-                }
+                data: result
             })
         } catch (error) {
             console.log(error)
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getImage = async (req, res) => {
+    const imageId = Number(req.params.id)
+    try {
+        const result = await resultDBServices.getImage(imageId)
+        console.log(result, "image result")
+        res.type(result.mime_type)
+        res.send(result.image)
     } catch (error) {
         console.log(error)
     }

@@ -2,8 +2,6 @@ import db from "../config/databaseConfig.js"
 
 
 
-
-
 export const getAllPropertiesUnderCoordinatesService = async (latitude, longitude) => {
     try {
         const query = `SELECT house.house_id 
@@ -27,7 +25,7 @@ export const getAllPropertiesUnderCoordinatesService = async (latitude, longitud
 
 export const getDisplayPropertyResultService = async (houseId) => {
     try {
-        const query = `SELECT house.house_id, housetype.house_type, area.area_name, preferred_tenants.id, property.area_builtup, apartment.apartment_type, rental.expected_rent, rental.deposit_amount, rental.rent_negotiable, furnished.furnishedtype, preferred_tenants.*, rental.available_from
+        const query = `SELECT house.house_id, house.gallery_id, housetype.house_type, area.area_name, preferred_tenants.id, property.area_builtup, apartment.apartment_type, rental.expected_rent, rental.deposit_amount, rental.rent_negotiable, furnished.furnishedtype, preferred_tenants.*, rental.available_from
                         FROM house
                         INNER JOIN property ON house.property_id = property.property_id
                         INNER JOIN rental ON house.rental_id = rental.rental_id 
@@ -67,7 +65,6 @@ export const getFullUserDetails = async (userId) => {
         console.log(error)
     }
 }
-
 
 
 export const getFullHousePropertyDetails = async (propertyId) => {
@@ -148,11 +145,22 @@ export const getFullHouseScheduleDetails = async (scheduleId) => {
 }
 
 
-export const getFullHouseGalleryDetails = async (galleryId) => {
+export const getFullHouseGalleryDetails = async (houseId) => {
     try {
-        const query = `SELECT * FROM images
-                        WHERE images_id = $1`
-        const result = await db.query(query, [galleryId])
+        const query = `SELECT images_id FROM gallery
+                        WHERE house_id = $1`
+        const result = await db.query(query, [houseId])
+        return result.rows
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const getImage = async (imageId) => {
+    console.log(imageId, "image id")
+    try {
+        const result = await db.query('SELECT * FROM gallery WHERE images_id = $1', [imageId])
         return result.rows[0]
     } catch (error) {
         console.log(error)
