@@ -36,11 +36,11 @@ app.use(session({
         tableName: "user_session"
     })
 }))
-app.use("/upload", uploadHouseDetails)
-app.use("/user", userDetails)
-app.use("/authentication", userDetails)
-app.use("/property-details", propertyDetails)
-app.use("/user-property", userDetails)
+app.use("/api/upload", uploadHouseDetails)
+app.use("/api/user", userDetails)
+app.use("/api/authentication", userDetails)
+app.use("/api/property-details", propertyDetails)
+app.use("/api/user-property", userDetails)
 
 
 
