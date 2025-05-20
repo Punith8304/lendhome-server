@@ -88,6 +88,29 @@ export const addToWishListService = async (userId, houseId) => {
 }
 
 
+
+export const removeFromWishListService = async (userId, houseId) => {
+    try {
+        const result = await db.query('DELETE FROM wishlist WHERE user_id = $1 AND house_id = $2;', [userId, houseId])
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const checkWishlistService = async (userId, houseId) => {
+    try {
+        const result = await db.query('SELECT * FROM wishlist WHERE user_id = $1 AND house_id = $2', [userId, houseId]);
+        if(result.rows.length > 0) {
+            return true
+        } else {
+            return false
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getWishListIdService = async (userId) => {
     try{
         const result = await db.query('SELECT * FROM wishlist WHERE user_id = $1', [userId])
@@ -107,6 +130,16 @@ export const getOwnerPropertiesHouseIds = async (userId) => {
             propertiesId.push(element.house_id)
         })
         return propertiesId
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const removeProperty = async (userId, houseId) => {
+    try {
+        const result = await db.query('DELETE FROM house WHERE user_id = $1 AND house_id = $2', [userId, houseId])
+        return true
     } catch (error) {
         console.log(error)
     }

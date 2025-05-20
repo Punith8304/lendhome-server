@@ -51,8 +51,9 @@ export const userSignUp = async (req, res) => {
         res.json({message: "user successfully registered & logged in", login: true, user: req.session.user})
         console.log("registered successfully")
     } else {
-        res.json({message: "user not registered", displayError: "user already exists with same mobile number or email", login: false})
         console.log("not registered")
+        res.json({message: "user not registered", displayError: "something went wrong", login: false})
+        
     }
 }
 export const checkAuthentication = async (req, res) => {
@@ -91,6 +92,28 @@ export const addToWishList = async (req, res) => {
 }
 
 
+export const removeFromWishList = async (req, res) => {
+    const userId = req.session.user.userId;
+    try {
+        const removeFromWishListResult = await dbService.removeFromWishListService(userId, req.body.houseId)
+        res.send({status: 200, removed: removeFromWishListResult})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const checkWishlist = async (req, res) => {
+    const userId = req.session.user.userId
+    try {
+        const result = await dbService.checkWishlistService(userId, req.body.houseId)
+        res.send({status: 200, exist: result})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export const getWishList = async (req, res) => {
     const userId = req.session.user.userId;
     try {
@@ -109,7 +132,20 @@ export const getUserPostedPropertiesIds = async (req, res) => {
     try {
         const getOwnerPropertyIds = await dbService.getOwnerPropertiesHouseIds(userId)
         console.log(getOwnerPropertyIds, "results rows")
-        res.send({propertiesIds: getOwnerPropertyIds})
+        res.send({propertiesIds: getOwnerPropertyIds, isEmpty: getOwnerPropertyIds.length === 0})
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+export const removeUserProperty = async (req, res) => {
+    const userId = req.session.user.userId;
+    const houseId = req.body.houseId;
+    try {
+        const removePropertyResult = await dbService.removeProperty(userId, houseId)
+        console.log("success")
+        res.send({status: removePropertyResult ? 200 : 424})
     } catch (error) {
         console.log(error)
     }

@@ -10,6 +10,7 @@ import uploadHouseDetails from "./src/routes/uploadHouseDetails.js"
 import propertyDetails from "./src/routes/propertyDetails.js"
 import userDetails from "./src/routes/userDetails.js"
 import pgSessionStore from "connect-pg-simple"
+import axios from "axios"
 const app = express()
 connectDatabase() //Establishing database connection
 app.use(express.json()) //parse incoming JSON requests
@@ -36,16 +37,40 @@ app.use(session({
         tableName: "user_session"
     })
 }))
+
 app.use("/api/upload", uploadHouseDetails)
 app.use("/api/user", userDetails)
 app.use("/api/authentication", userDetails)
 app.use("/api/property-details", propertyDetails)
 app.use("/api/user-property", userDetails)
+app.use("/api/placeSuggestions", propertyDetails)
 
 
 
 app.get("/home-page", async (req, res) => {
-    res.send("Hello world")
+    try {
+        const parameters = {
+            input: "tngo",
+            key: process.env.API_KEY,
+            location: "circle:30000@17.366,78.476",
+            radius: 40000
+        }
+        const result = await axios.get(`https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${parameters.input}&key=${parameters.key}&locationrestriction=${parameters.location}}`)
+        const placeIds = []
+        result.data.predictions.forEach((place) => {
+            placeIds.push(place.place_id)
+        })
+        try{
+
+            const placeDetails = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeIds[0]}&key=${process.env.API_KEY}`)
+            res.send(placeDetails.data)
+        } catch (error) {
+            res.send(error)
+        }
+    } catch (error) {
+        console.log(error)
+        res.send("Hello")
+    }
 })
 
 
