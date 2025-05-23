@@ -11,7 +11,7 @@ export const getPlaceSuggestionsList = async (parameters) => {
         console.log(placeIds)
         return placeIds
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -23,6 +23,6 @@ export const getPlaceFullDetails = async (placeIds) => {
         })
         return placeDetails
     } catch (error) {
-        res.send(error)
+        return error
     }
 }

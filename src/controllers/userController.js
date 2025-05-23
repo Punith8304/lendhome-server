@@ -46,7 +46,10 @@ export const userSignUp = async (req, res) => {
             useremail: user.user_email,
             username: user.user_name,
             usermobile: user.user_mobile,
-            userId: user.user_id
+            userId: user.user_id,
+            house: {
+                houseCreationInitialised: false
+            }
         }
         res.json({message: "user successfully registered & logged in", login: true, user: req.session.user})
         console.log("registered successfully")

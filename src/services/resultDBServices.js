@@ -18,7 +18,7 @@ export const getAllPropertiesUnderCoordinatesService = async (latitude, longitud
             return result.rows
         }
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -39,7 +39,7 @@ export const getDisplayPropertyResultService = async (houseId) => {
         const result = await db.query(query, [houseId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -51,7 +51,7 @@ export const fullPropertyResultDetailsIds = async (houseId) => {
         console.log(result.rows[0])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -62,7 +62,7 @@ export const getFullUserDetails = async (userId) => {
         const result = await db.query(query, [userId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -79,7 +79,7 @@ export const getFullHousePropertyDetails = async (propertyId) => {
         const result = await db.query(query, [propertyId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -94,7 +94,7 @@ export const getFullHouseLocalityDetails = async (localityId) => {
         const result = await db.query(query, [localityId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -110,7 +110,7 @@ export const getFullHouseRentalDetails = async (rentalId) => {
         const result = await db.query(query, [rentalId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -126,7 +126,7 @@ export const getFullHouseAmenitiesDetails = async (amenitiesId) => {
         const result = await db.query(query, [amenitiesId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -140,7 +140,7 @@ export const getFullHouseScheduleDetails = async (scheduleId) => {
         const result = await db.query(query, [scheduleId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -152,7 +152,7 @@ export const getFullHouseGalleryDetails = async (houseId) => {
         const result = await db.query(query, [houseId])
         return result.rows
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
 
@@ -163,6 +163,6 @@ export const getImage = async (imageId) => {
         const result = await db.query('SELECT * FROM gallery WHERE images_id = $1', [imageId])
         return result.rows[0]
     } catch (error) {
-        res.send(error)
+        return error
     }
 }
