@@ -8,7 +8,7 @@ export const getPropertiesIds = async (req, res) => {
         const result = await resultDBServices.getAllPropertiesUnderCoordinatesService(parseFloat(data.lat), parseFloat(data.lng))
         res.send(result)
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -21,7 +21,7 @@ export const getDisplayPropertyResult = async (req, res) => {
         const result = await resultDBServices.getDisplayPropertyResultService(houseId)
         res.send(result)
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -51,10 +51,10 @@ export const getFullHouseDetails = async (req, res) => {
                 data: result
             })
         } catch (error) {
-            console.log(error)
+            res.send(error)
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -67,6 +67,6 @@ export const getImage = async (req, res) => {
         res.type(result.mime_type)
         res.send(result.image)
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

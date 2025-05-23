@@ -27,6 +27,6 @@ export const createNewHouseItem = async (req, res) => {
         res.send({status: 200, updateUser: req.session.user})
         console.log("create house item")
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

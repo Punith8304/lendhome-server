@@ -20,9 +20,9 @@ export const uploadScheduleDetails = async (req, res) => {
             const result = await dbServices.updateHouse("schedule_id", columnValue, houseId)
             res.send({status: 200})
         } catch (error) {
-            console.log(error)
+            res.send(error)
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

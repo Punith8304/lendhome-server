@@ -7,8 +7,8 @@ import * as dbService from "../services/dbService.js"
 export const userLogin = async (req,res) => {
     const userLoginDetails = req.body;
     const user = await dbService.getUser(userLoginDetails.email)
-
     if(user) {
+        console.log(user, userLoginDetails, "details-login")
         const passwordCheck = await encrypt.comparePassword(userLoginDetails.password, user.user_password)
         if (passwordCheck) {
             req.session.user = {
@@ -87,7 +87,7 @@ export const addToWishList = async (req, res) => {
         console.log(addToWishListResult)
         res.send({status: 200, data: addToWishListResult})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -98,7 +98,7 @@ export const removeFromWishList = async (req, res) => {
         const removeFromWishListResult = await dbService.removeFromWishListService(userId, req.body.houseId)
         res.send({status: 200, removed: removeFromWishListResult})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -109,7 +109,7 @@ export const checkWishlist = async (req, res) => {
         const result = await dbService.checkWishlistService(userId, req.body.houseId)
         res.send({status: 200, exist: result})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -122,7 +122,7 @@ export const getWishList = async (req, res) => {
         console.log(getWishList, "wishlist")
         res.send({wishList: getWishList, isEmpty: getWishList.length === 0})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -134,7 +134,7 @@ export const getUserPostedPropertiesIds = async (req, res) => {
         console.log(getOwnerPropertyIds, "results rows")
         res.send({propertiesIds: getOwnerPropertyIds, isEmpty: getOwnerPropertyIds.length === 0})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -147,6 +147,6 @@ export const removeUserProperty = async (req, res) => {
         console.log("success")
         res.send({status: removePropertyResult ? 200 : 424})
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

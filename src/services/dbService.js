@@ -14,7 +14,7 @@ export const createUser = async (userName, email, mobile, password) => {
         console.log("success register")
         return user.rows[0]
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -23,7 +23,7 @@ export const getCityId = async (city) => {
         const cityResult = await db.query('SELECT * FROM city WHERE UPPER(city_name) = $1',[city.toUpperCase()])
         return cityResult.rows[0].city_id;
     } catch(error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -34,7 +34,7 @@ export const createNewHouseItem = async (userId) => {
         const result = await db.query('INSERT INTO house (user_id) VALUES ($1) RETURNING *', [userId])
         return result.rows[0]
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -46,7 +46,7 @@ export const updateHouse = async (columnName, columnValue, houseId) => {
         console.log(result.rows[0], query, columnName, columnValue, houseId, "update house")
         return result
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -73,7 +73,7 @@ export const getCompletedPropertyList = async (houseId) => {
             currentProperty: currentProperty
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -83,7 +83,7 @@ export const addToWishListService = async (userId, houseId) => {
         const result = await db.query('INSERT INTO wishlist (house_id, user_id) VALUES ($1, $2) RETURNING *', [houseId, userId])
         return result.rows[0]
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -93,7 +93,7 @@ export const removeFromWishListService = async (userId, houseId) => {
     try {
         const result = await db.query('DELETE FROM wishlist WHERE user_id = $1 AND house_id = $2;', [userId, houseId])
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -107,7 +107,7 @@ export const checkWishlistService = async (userId, houseId) => {
             return false
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -116,7 +116,7 @@ export const getWishListIdService = async (userId) => {
         const result = await db.query('SELECT * FROM wishlist WHERE user_id = $1', [userId])
         return result.rows
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -131,7 +131,7 @@ export const getOwnerPropertiesHouseIds = async (userId) => {
         })
         return propertiesId
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
 
@@ -141,6 +141,6 @@ export const removeProperty = async (userId, houseId) => {
         const result = await db.query('DELETE FROM house WHERE user_id = $1 AND house_id = $2', [userId, houseId])
         return true
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

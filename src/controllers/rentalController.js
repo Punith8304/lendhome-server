@@ -22,12 +22,12 @@ export const uploadRentalDetails = async (req, res) => {
                 const result = await dbServices.updateHouse("rental_id", rentalId, houseId)
                 res.send({status: 200})
             } catch (error) {
-                console.log(error)
+                res.send(error)
             }
         } catch (error) {
-            console.log(error)
+            res.send(error)
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

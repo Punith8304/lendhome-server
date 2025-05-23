@@ -5,6 +5,7 @@ export const uploadPropertyDetails = async (req, res) => {
     const propertyDetails = req.body;
     const houseId = req.session.user.house.houseId
     try {
+        console.log("requested successfully")
         const {queryColumns, queryPlaceHolders, queryValues} = uploadQueryMaker(propertyDetails)
         const query = `INSERT INTO property (${queryColumns}) VALUES (${queryPlaceHolders}) RETURNING *`
         const uploadedResult = await uploadService.createNewProperty(query, queryValues)
@@ -13,9 +14,9 @@ export const uploadPropertyDetails = async (req, res) => {
             const result = await dbServices.updateHouse("property_id", columnValue, houseId)
             res.send({status: 200});
         } catch (error) {
-            console.log(error)
+            res.send(error)
         }
     }catch(error){
-        console.log(error)
+        res.send(error)
     }
 }

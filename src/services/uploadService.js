@@ -5,6 +5,6 @@ export const createNewProperty = async (query, objectValues) => {
         const result = await db.query(query, objectValues)
         return result
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }

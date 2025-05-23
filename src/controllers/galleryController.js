@@ -26,9 +26,9 @@ export const uploadGalleryDetails = async (req, res) => {
         try {
             res.send({ status: 200 })
         } catch (error) {
-            console.log(error)
+            res.send(error)
         }
     } catch (error) {
-        console.log(error)
+        res.send(error)
     }
 }
