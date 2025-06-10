@@ -1,4 +1,5 @@
 import db from "../config/databaseConfig.js"
+import { getNearbyHouseIds } from "../controllers/resultsController.js"
 
 
 
@@ -13,11 +14,13 @@ export const getAllPropertiesUnderCoordinatesService = async (latitude, longitud
         const result = await db.query(query, [latitude + 0.02, latitude - 0.02, longitude + 0.02, longitude - 0.02])
         if (!result.rows[0]) {
             const outerAreaResult = await db.query(query, [latitude - 0.09, latitude + 0.09, longitude - 0.09, longitude + 0.09])
+            console.log(outerAreaResult.rows)
             return outerAreaResult.rows
         } else {
             return result.rows
         }
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -39,6 +42,7 @@ export const getDisplayPropertyResultService = async (houseId) => {
         const result = await db.query(query, [houseId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -51,6 +55,7 @@ export const fullPropertyResultDetailsIds = async (houseId) => {
         console.log(result.rows[0])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -62,6 +67,7 @@ export const getFullUserDetails = async (userId) => {
         const result = await db.query(query, [userId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -79,6 +85,7 @@ export const getFullHousePropertyDetails = async (propertyId) => {
         const result = await db.query(query, [propertyId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -94,6 +101,7 @@ export const getFullHouseLocalityDetails = async (localityId) => {
         const result = await db.query(query, [localityId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -110,6 +118,7 @@ export const getFullHouseRentalDetails = async (rentalId) => {
         const result = await db.query(query, [rentalId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -126,6 +135,7 @@ export const getFullHouseAmenitiesDetails = async (amenitiesId) => {
         const result = await db.query(query, [amenitiesId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -140,6 +150,7 @@ export const getFullHouseScheduleDetails = async (scheduleId) => {
         const result = await db.query(query, [scheduleId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -152,6 +163,7 @@ export const getFullHouseGalleryDetails = async (houseId) => {
         const result = await db.query(query, [houseId])
         return result.rows
     } catch (error) {
+        console.log(error)
         return error
     }
 }
@@ -163,6 +175,24 @@ export const getImage = async (imageId) => {
         const result = await db.query('SELECT * FROM gallery WHERE images_id = $1', [imageId])
         return result.rows[0]
     } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+
+export const getInCityNearbyHouseIds = async (city) => {
+    try {
+        const query = `SELECT house.house_id
+                        FROM house
+                        INNER JOIN locality ON locality.locality_id = house.locality_id
+                        INNER JOIN city ON city.city_id = locality.city_id WHERE city.city_name = $1
+                        AND house.* IS NOT NULL;`
+        const result = await db.query(query, [city]);
+        console.log(result.rows.slice(0, 10), city)
+        return result.rows
+    } catch (error) {
+        console.log(error)
         return error
     }
 }

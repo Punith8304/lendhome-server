@@ -65,10 +65,10 @@ app.get("/home-page", async (req, res) => {
             const placeDetails = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeIds[0]}&key=${process.env.API_KEY}`)
             res.send(placeDetails.data)
         } catch (error) {
-            res.send(error)
+            res.send(error); console.log(error);
         }
     } catch (error) {
-        res.send(error)
+        res.send(error); console.log(error);
         res.send("Hello")
     }
 })
@@ -102,7 +102,7 @@ app.get("/home-page", async (req, res) => {
 //         console.log(result.rows[0])
 //         res.send("Successfully stored property details in database")
 //     } catch (error) {
-//         res.send(error)
+//         res.send(error); console.log(error);
 //         res.send("Error storing property details")
 //     }
 // })
@@ -125,7 +125,7 @@ app.get("/home-page", async (req, res) => {
 //                 }
 //             } catch (error) {
 //                 res.status("Error status; 401", error)
-//                 res.send(error)
+//                 res.send(error); console.log(error);
 //             }
 //         } else {
 //             try {
@@ -134,12 +134,12 @@ app.get("/home-page", async (req, res) => {
 //                 console.log(`Locality result : ${results.rows[0]}`)
 //             } catch (error) {
 //                 res.status("Error status; 401", error)
-//                 res.send(error)
+//                 res.send(error); console.log(error);
 //             }
 //         }
 //     } catch (error) {
-//         res.send(error)
-//         res.send(error)
+//         res.send(error); console.log(error);
+//         res.send(error); console.log(error);
 //     }
 //     // console.log("Locality Post request received successfully")
 //     // console.log(req.body)
@@ -166,11 +166,11 @@ app.get("/home-page", async (req, res) => {
 //             const result = await db.query(query, objectValues);
 //             res.send("Uploaded details successfully")
 //         } catch (error) {
-//             res.send(error)
+//             res.send(error); console.log(error);
 //             res.send("Error while uploading house details", error)
 //         }
 //     } catch (error) {
-//         res.send(error)
+//         res.send(error); console.log(error);
 //         res.send("Error while uploading preferred tenants", error)
 //     }
 
@@ -201,12 +201,12 @@ app.get("/home-page", async (req, res) => {
 //             res.send(amenitiesResult)
 //             console.log(amenitiesResult)
 //         } catch (error) {
-//             res.send(error)
-//             res.send(error)
+//             res.send(error); console.log(error);
+//             res.send(error); console.log(error);
 //         }
 //     } catch (error) {
-//         res.send(error)
-//         res.send(error)
+//         res.send(error); console.log(error);
+//         res.send(error); console.log(error);
 //     }
 //     // console.log("Amenities Post request received successfully")
 //     // console.log(req.body)
@@ -223,7 +223,7 @@ app.get("/home-page", async (req, res) => {
 //             console.log(image)
 //         })
 //     } catch (error) {
-//         res.send(error)
+//         res.send(error); console.log(error);
 //     }
 // })
 // app.post("/upload/schedule-details", async (req, res) => {
@@ -242,7 +242,7 @@ app.get("/home-page", async (req, res) => {
 //         console.log(result.rows[0])
 //         res.send("Successfully uploaded files")
 //     } catch (error) {
-//         res.send(error)
+//         res.send(error); console.log(error);
 //     }
 // })
 

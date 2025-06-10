@@ -18,17 +18,18 @@ export const uploadLocalityDetails = async (req, res) => {
             const {queryColumns : columns, queryPlaceHolders : placeHolders, queryValues : values} = uploadQueryMaker(localityDetailsCopy)
             const localityQuery = `INSERT INTO locality (${columns}) VALUES (${placeHolders}) RETURNING *`
             const localityUploadedResult = await uploadService.createNewProperty(localityQuery, values) 
+            console.log(localityUploadedResult.rows, "rows details")
             const localityId = localityUploadedResult.rows[0].locality_id;
             try {
                 const result = await dbServices.updateHouse("locality_id", localityId, houseId)
                 res.send({status: 200})
             } catch (error) {
-                res.send(error)
+                res.send(error); console.log(error);
             }
         } catch (error) {
-            res.send(error)
+            res.send(error); console.log(error);
         }
     } catch(error) {
-        res.send(error)
+        res.send(error); console.log(error);
     }
 }

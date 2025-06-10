@@ -8,20 +8,20 @@ export const getPropertiesIds = async (req, res) => {
         const result = await resultDBServices.getAllPropertiesUnderCoordinatesService(parseFloat(data.lat), parseFloat(data.lng))
         res.send(result)
     } catch (error) {
-        res.send(error)
+        res.send(error); 
+        console.log(error);
     }
 }
 
 
 export const getDisplayPropertyResult = async (req, res) => {
-    const houseId = Number(req.body.houseId)
-    console.log(req.body, "houseId result")
-    console.log(req.body, houseId)
+    const houseId = Number(req.body.houseId.house_id)
     try {
         const result = await resultDBServices.getDisplayPropertyResultService(houseId)
         res.send(result)
     } catch (error) {
-        res.send(error)
+        res.send(error); 
+        console.log(error);
     }
 }
 
@@ -51,10 +51,12 @@ export const getFullHouseDetails = async (req, res) => {
                 data: result
             })
         } catch (error) {
-            res.send(error)
+            res.send(error); 
+            console.log(error);
         }
     } catch (error) {
-        res.send(error)
+        res.send(error); 
+        console.log(error);
     }
 }
 
@@ -67,6 +69,19 @@ export const getImage = async (req, res) => {
         res.type(result.mime_type)
         res.send(result.image)
     } catch (error) {
-        res.send(error)
+        res.send(error); 
+        console.log(error);
+    }
+}
+
+
+export const getNearbyHouseIds = async (req, res) => {
+    const city = req.body.city;
+    try {
+        const result = await resultDBServices.getInCityNearbyHouseIds(city)
+        res.send(result)
+    } catch (error) {
+        res.send(error); 
+        console.log(error);
     }
 }

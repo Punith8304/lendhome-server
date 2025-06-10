@@ -15,9 +15,9 @@ export const getPlaceSuggestions = async (req, res) => {
             console.log(placeDetails)
             res.send(placeDetails)
         } catch (error) {
-            res.send(error)
+            res.send(error); console.log(error);
         }
     } catch (error) {
-        res.send(error)
+        res.send(error); console.log(error);
     }
 }
